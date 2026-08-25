@@ -1,4 +1,5 @@
 import sqlite3
+import pandas as pd 
 from flask import Flask 
 
 app = Flask(__name__)
@@ -16,15 +17,12 @@ def home():
     # collect the rows and the print them line by line 
 
     rows = cursor.fetchall()
-    full_data = []
-
-    for row in rows:
-        full_data.append(row)
-    return full_data
     
     #close the connections/(Always cursosr first)
     cursor.close()
     connect.close()
+
+    return rows
 
 
 
