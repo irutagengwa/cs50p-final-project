@@ -55,7 +55,7 @@ def get_graph(term_a, term_b):
     ax_right.tick_params(axis="y", labelcolor = "tab:red")
 
     # add a title for the graph 
-    plt.title(f"{term_a.capitalize()} vs {term_b.capitalize()}", weight = "bold")
+    #plt.title(f"{term_a.capitalize()} vs {term_b.capitalize()}", weight = "bold")
 
     # add the legend to the graph
     # we need to use .get_legend_handles() so the two acis can know about each other 
@@ -68,10 +68,12 @@ def get_graph(term_a, term_b):
     ax_left.legend(lines1 + lines2, labels1 + labels2, loc="upper right", fontsize = 10)
 
     # add the correlation label 
-    fig.text(0.33, 0.03, f"Pearson Correlation coefficient: r = {correlation}") # places text anywhere based of the x & y cordinates 
+    # edit no need know since were also putting this on the graph through html 
+    #fig.text(0.33, 0.03, f"Pearson Correlation coefficient: r = {correlation}") # places text anywhere based of the x & y cordinates 
 
     # layout adjustment/ nuge the plotting area so the bottome correlation text sits outside the plot area
-    fig.tight_layout(rect=[0, 0.05, 1, 0.95])
+    # edit(no need now since we decide to put it on the graph through html instead)
+    fig.tight_layout()
 
     #display the graph 
     buf = io.BytesIO()

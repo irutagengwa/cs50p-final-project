@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TrendSignal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <!-- we need to be able chnage the hjeader based of the terms-->
+    <h1> Recession vs Unemplyment Benefits</h1>
+    <p> Correlation: {{ correlation }} </p>
+    <img src="data:image/png;base64,{{ image_base64 }}">
+
+     
+    <!-- Here were going to start making the term clicker with form-->
+    <form action="/compare" method="get">
+        <!-- first term clicker -->
+        <label for="term_a"> First term</label>
+       <select name="term_a" id="term_a">
+        {% for term in terms %}
+            <option value="{{ term }}">{{ term }}</option>
+        {% endfor %}
+        </select>
+
+        <!-- second term clicker -->
+          <label for="term_b"> Second term</label>
+       <select name="term_b" id="term_b">
+        {% for term in terms %}
+            <option value="{{ term }}">{{ term }}</option>
+        {% endfor %}
+        </select>
+
+        <button type ="submit"> Compare </button>
+     </form>
+</body>
+</html>

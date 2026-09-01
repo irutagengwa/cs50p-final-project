@@ -1,32 +1,44 @@
 import sqlite3
-import pandas as pd 
-from flask import Flask 
+from flask import Flask, render_template, request
+from chart import get_graph 
 
 app = Flask(__name__)
 
-# when someone visits the url path(/)(homepage) run the function below 
+
+def get_available_terms():
+    with sqlite3.connect("data/trends.db") as connect:
+        cursor = connect.cursor()
+        cursor.execute("SELECT DISTINCT term FROM data")
+        terms = [row[0] for row in cursor.fetchall()]
+    return terms 
+
+# so this is going to be our homepage and we want there just to be the form, no chart yet 
 @app.route("/")
 def home():
-    # connect to the database & cursor for to excute commands 
-    connect = sqlite3.connect("data/trends.db")
-    cursor = connect.cursor()
-
-    #excute the querey 
-    cursor.execute("SELECT * FROM data")
-
-    # collect the rows and the print them line by line 
-
-    rows = cursor.fetchall()
-    
-    #close the connections/(Always cursosr first)
-    cursor.close()
-    connect.close()
-
-    return rows
+   terms = get_available_terms()
+   return render_template("index.html", terms = terms)
 
 
+#ok now when somone writes something on the form, this route reas their picks and builds the chart 
+@app.route("/compare")
+def compare():
+    term_a = request.args.get("term_a")
+    term_b = request.args.get("term_b")
+
+    correlation, image = get_graph(term_a, term_b)
+    terms = get_available_terms()
 
 
-# debug=True for automatic reloader & Error Messages 
+    return render_template(
+        "index.html",
+        correlation = correlation,
+        image = image,
+        term_a = term_a,
+        term_b = term_b
+    )
+
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)
