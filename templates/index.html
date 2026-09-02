@@ -1,48 +1,101 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>TrendSignal</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TrendSignal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
-    <!-- we need to be able chnage the hjeader based of the terms-->
-    {% if correlation is defined %}
-        <h1> {{ term_a.capitalize() }} vs. {{ term_b.capitalize() }}</h1>
-        <p> Correlation: {{ "%.3f"|format(correlation) }} </p>
-        <img src="data:image/png;base64,{{ image }}" alt="{{ term_a }} vs {{ term_b }}">
-    {% else %}
-        <h1>TrendSignal</h1>
-        <p> Pick two terms below to see how closely they're related </p>
-    <!-- we need to close the statments since jinja rely on-->
-     {% endif %}
+<div class = "app">
 
-    {% if error %}
-        <p class="error">{{ error }}</p>
-    {% endif %}
+    <div class="topbar">
+        <span class = "brand"> TrendSignal </span>s
+    </div>
 
-    <!-- Here were going to start making the term clicker with form-->
-    <form action="/compare" method="get">
-        <!-- first term clicker -->
-        <label for="term_a"> First term</label>
-       <select name="term_a" id="term_a" required>
-        <!-- placeholder so nothing is picked for you, disabled means you cant pick it back -->
-        <option value="" disabled {% if not term_a %}selected{% endif %}>-- choose a term --</option>
-        {% for term in terms %}
-            <option value="{{ term }}" {% if term == term_a %}selected{% endif %}>{{ term.capitalize() }}</option>
-        {% endfor %}
-        </select>
+<form class = "body" action = "/compare" method = "get">
+    <div class = "rail">
+        <div>
+            <div class = "eyebrow"> CORRELATION </div>
 
-        <!-- second term clicker -->
-          <label for="term_b"> Second term</label>
-       <select name="term_b" id="term_b" required>
-        <option value="" disabled {% if not term_b %}selected{% endif %}>-- choose a term --</option>
-        {% for term in terms %}
-            <option value="{{ term }}" {% if term == term_b %}selected{% endif %}>{{ term.capitalize() }}</option>
-        {% endfor %}
-        </select>
+            {% if correlation is defined %}
+                <p class="r-value"> {{ "%.2f"|format(correlation) }}</p>
+                {% set mag = correlation| abs %}
+            </div>
 
-        <button type ="submit"> Compare </button>
-     </form>
-</body>
-</html>
+            <!-- so know what were going to do is descibe the correlation based of the value !-->
+            <p class = "r-strength">
+                {% if mag > 0.8 %}Very Strong 
+                {% elif mag > 0.6 %}Strong 
+                {% elif mag > 0.4 %} Moderate
+                {% elif mag > 0.2 %} Weak
+                {% else %} Essentially None 
+                {% end if %}
+                {% if correlation < 0 %}Negative {% else %} Postive {% endif %} relationship 
+            </p>
+            <p class = "r-note">
+                Searches for <strong> {{ term_a }}</strong> and <strong> {{term_b }}</strong>
+                {% if mag > 0.4 %} rise and fall toogether over the period shown. {% else %}move largely inde[endent;y over the perido shown. {% end if %}
+            </p>
+        {% elif term_a %}
+          <p class="r-value empty">&mdash;.&mdash;&mdash;</p>
+          <p class="r-strength">One more term needed</p>
+          <p class="r-note">
+            You picked <strong>{{ term_a }}</strong>. Choose a second term to compare it against &mdash; it has to be a different one.
+          </p>
+
+        {% else %}
+          <p class="r-value empty">&mdash;.&mdash;&mdash;</p>
+          <p class="r-note">
+            Pick two search terms and TrendSignal will measure how tightly they move together over the last five years.
+          </p>
+        {% endif %}
+      </div>
+      {% if error %}
+        <div class="error"><span class="bullet"></span>{{ error }}</div>
+      {% endif %}
+
+      <!-- THis is where the code for the clicker begging -->
+    <div class = "picker">
+        <div class="eyebrow"> SIGNALS</div>
+    
+           <label class="slot {% if not term_a %}empty{% endif %}" for="term_a">
+          <span>
+            <span class="label">TERM A</span>
+            <select name="term_a" id="term_a" required>
+              <option value="" disabled {% if not term_a %}selected{% endif %}>Choose a term</option>
+              {% for term in terms %}
+                <option value="{{ term }}" {% if term == term_a %}selected{% endif %}>{{ term.capitalize() }}</option>
+              {% endfor %}
+            </select>
+          </span>
+          <span class="dot {% if term_a %}a{% else %}pending{% endif %}"></span>
+        </label>
+
+        <label class="slot {% if not term_b %}empty{% endif %}" for="term_b">
+          <span>
+            <span class="label">TERM B</span>
+            <select name="term_b" id="term_b" required>
+              <option value="" disabled {% if not term_b %}selected{% endif %}>Choose a term</option>
+              {% for term in terms %}
+                <option value="{{ term }}" {% if term == term_b %}selected{% endif %}>{{ term.capitalize() }}</option>
+              {% endfor %}
+            </select>
+          </span>
+          <span class="dot {% if term_b %}b{% else %}pending{% endif %}"></span>
+        </label>
+
+        <button class="btn" type="submit">
+          {% if correlation is defined %}Recalculate{% else %}Compare{% endif %}
+        </button>
+      </div>
+    </div>    
+</form>
+
+
+
+</div>
