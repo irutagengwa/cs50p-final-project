@@ -1,5 +1,5 @@
 body {
-    font-family: Artial, sans-serif;
+    font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 0;
     padding: 40px
@@ -20,4 +20,8 @@ img {
     border: 1px solid #ccc;
     border-radius: 8px;
     margin-top: 20px;
+}
+.error {
+    color: #b00020;
+    font-weight: bold;
 }

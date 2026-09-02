@@ -7,26 +7,38 @@
 <body>
 
     <!-- we need to be able chnage the hjeader based of the terms-->
-    <h1> Recession vs Unemplyment Benefits</h1>
-    <p> Correlation: {{ correlation }} </p>
-    <img src="data:image/png;base64,{{ image_base64 }}">
+    {% if correlation is defined %}
+        <h1> {{ term_a.capitalize() }} vs. {{ term_b.capitalize() }}</h1>
+        <p> Correlation: {{ "%.3f"|format(correlation) }} </p>
+        <img src="data:image/png;base64,{{ image }}" alt="{{ term_a }} vs {{ term_b }}">
+    {% else %}
+        <h1>TrendSignal</h1>
+        <p> Pick two terms below to see how closely they're related </p>
+    <!-- we need to close the statments since jinja rely on-->
+     {% endif %}
 
-     
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
     <!-- Here were going to start making the term clicker with form-->
     <form action="/compare" method="get">
         <!-- first term clicker -->
         <label for="term_a"> First term</label>
-       <select name="term_a" id="term_a">
+       <select name="term_a" id="term_a" required>
+        <!-- placeholder so nothing is picked for you, disabled means you cant pick it back -->
+        <option value="" disabled {% if not term_a %}selected{% endif %}>-- choose a term --</option>
         {% for term in terms %}
-            <option value="{{ term }}">{{ term }}</option>
+            <option value="{{ term }}" {% if term == term_a %}selected{% endif %}>{{ term.capitalize() }}</option>
         {% endfor %}
         </select>
 
         <!-- second term clicker -->
           <label for="term_b"> Second term</label>
-       <select name="term_b" id="term_b">
+       <select name="term_b" id="term_b" required>
+        <option value="" disabled {% if not term_b %}selected{% endif %}>-- choose a term --</option>
         {% for term in terms %}
-            <option value="{{ term }}">{{ term }}</option>
+            <option value="{{ term }}" {% if term == term_b %}selected{% endif %}>{{ term.capitalize() }}</option>
         {% endfor %}
         </select>
 

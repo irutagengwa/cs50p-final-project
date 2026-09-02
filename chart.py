@@ -6,6 +6,11 @@ import sqlite3
 import pandas as pd 
 import io
 import base64
+import os
+
+# build the db path off this file so the app works no matter what folder you run it from
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DIR, "data", "trends.db")
 
 def main():
 
@@ -15,7 +20,7 @@ def main():
 
   
 def get_graph(term_a, term_b):
-    with sqlite3.connect("data/trends.db") as connect:
+    with sqlite3.connect(DB_PATH) as connect:
         df = pd.read_sql_query(
             "SELECT * FROM data WHERE term IN (?, ?)",
             connect,
@@ -23,6 +28,15 @@ def get_graph(term_a, term_b):
         )
     df["date"] = pd.to_datetime(df["date"])
     wide = df.pivot(index="date", columns="term", values="value")
+
+    # if a term isn't in the database there's no column for it, so say so instead of blowing up
+    for term in (term_a, term_b):
+        if term not in wide.columns:
+            raise ValueError(f"No data for term: {term}")
+
+    # drop any dates where one of the two terms is missing, otherwise polyfit chokes on NaN
+    wide = wide[[term_a, term_b]].dropna() if term_a != term_b else wide[[term_a]].dropna()
+
     correlation = wide[term_a].corr(wide[term_b])
 
     x_numeric = np.array(wide.index.map(lambda d: d.toordinal()))
@@ -85,4 +99,4 @@ def get_graph(term_a, term_b):
     return correlation, image_base64
 
 if __name__ == "__main__":
-    main() 
+    main()

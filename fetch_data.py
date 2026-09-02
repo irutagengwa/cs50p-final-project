@@ -37,7 +37,7 @@ for date, row in data.iterrows():
         value = row[term]
 
         cursor.execute(
-            "INSERT INTO data (date, term, value) VALUES (?, ?, ?)",
+            "INSERT OR REPLACE INTO data (date, term, value) VALUES (?, ?, ?)",
             (str(date), term, int(value)),
         )
 
