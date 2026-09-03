@@ -67,3 +67,75 @@ body {
   letter-spacing: 0.14em;
   color: var(--faint);
 }
+
+/* ---------- the big r ---------- */
+.r-value {
+  font-size: 96px;
+  font-weight: 700;
+  line-height: 0.82;
+  letter-spacing: -0.05em;
+  margin: 12px 0 0;
+}
+.r-value.empty { color: var(--ghost); }
+.r-strength { font-size: 14px; font-weight: 500; color: var(--red); margin: 10px 0 0; }
+.r-note { font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 8px 0 0; text-wrap: pretty; }
+.r-note strong { font-weight: 500; color: var(--ink); }
+
+/* ---------- term pickers ---------- */
+.picker { display: flex; flex-direction: column; gap: 10px; }
+
+.slot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  background: #fff;
+  border: 1.5px solid var(--ink);
+  border-radius: 7px;
+  padding: 14px 16px;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+}
+.slot:hover { background: #f5f2ea; }
+.slot.empty { border-style: dashed; border-color: var(--dash); }
+.slot.empty:hover { border-color: var(--ink); }
+.slot .label {
+  display: block;
+  font: 400 10px/1 "JetBrains Mono", ui-monospace, Menlo, monospace;
+  letter-spacing: 0.12em;
+  color: var(--faint);
+  margin-bottom: 3px;
+}
+.slot .value { font-size: 15px; font-weight: 500; color: var(--ink); }
+.slot.empty .value { color: var(--faint); }
+.dot { width: 11px; height: 11px; border-radius: 50%; flex: none; display: block; }
+.dot.a { background: var(--blue); }
+.dot.b { background: var(--red); }
+.dot.pending { border: 1.5px dashed var(--dash); }
+
+/* native selects styled as slots */
+.slot select {
+  appearance: none;
+  border: none;
+  background: transparent;
+  font: 500 15px/1 "Space Grotesk", Helvetica, sans-serif;
+  color: var(--ink);
+  padding: 0;
+  width: 100%;
+  cursor: pointer;
+}
+.slot select:focus { outline: none; }
+
+/* ---------- buttons ---------- */
+.btn {
+  font: 500 14px/1 "Space Grotesk", Helvetica, sans-serif;
+  color: var(--paper);
+  background: var(--ink);
+  border: none;
+  border-radius: 7px;
+  padding: 15px 18px;
+  margin-top: 4px;
+  cursor: pointer;
+}
