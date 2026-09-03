@@ -33,6 +33,3 @@ def test_get_available_terms():
     # the query is DISTINCT and ORDER BY, so no duplicates and already sorted
     assert terms == sorted(set(terms))
 
-
-if __name__ == "__main__":
-    pytest.main([__file__])

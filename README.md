@@ -1,14 +1,18 @@
 # TrendSignal
+#### [Video Demo](http://youtube.com/watch?v=GlXUyHiE4QA)
+## Description
 
-## Description 
+TrendSignal is a web application I built to explore whether public search interest, via [Google Trends](https://trends.google.com/trends/), can act as an early signal for real-world events. Users pick two search terms, and the site calculates and visualizes the statistical correlation between them over time.
 
-TrendSingal is a web application that I self devloped to explore wheter public search intrest [via Google Trends](https://trends.google.com/trends/) can act as an early signal for real-world event and trends. Users select a search term and a real-word dataset like unemployment claims from [FRED](https://fred.stlouisfed.org/series/UNRATE) or health data from [Our World in Data](https://ourworldindata.org/), and the site then calculates and visualizes the statsical correlation begween the two over time, showing whether spikes in search interest tend to precede, follow, or align with the real-world data.
-
-The idea is built on the observation that people often search for things before those things show up in official statistics, searching "unemployment benefits" before jobless claims are reported, or "flu symptoms" before case counts rise. TrendSignal lets a user pick two signals and see, numerically and visually, how tightly they actually move together.
-
+The idea is built on the observation that search behavior often shifts before an event shows up in official statistics — people search "unemployment benefits" before jobless claims are reported, or "flu symptoms" before case counts rise. TrendSignal lets a user pick two terms and see, numerically and visually, how closely they actually move together.
 
 ## How it works
 
-
+1. **Collect** — a one-time script pulls 5 years of weekly search interest for each term from Google Trends and saves it locally.
+2. **Store** — that data lives in a small SQLite database, so the live site never has to call Google directly.
+3. **Compare** — pick two terms on the site, and Flask pulls both from the database, aligns them by date, and computes their Pearson correlation coefficient.
+4. **Visualize** — the two terms are plotted on a dual-axis chart with a best-fit curve each, so you can see not just the correlation number but the actual shape of how they move together.
 
 ## How to use 
+
+Run project.py in your teminal, select the two terms you would like to compare, then press compare !!

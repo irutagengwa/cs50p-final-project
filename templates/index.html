@@ -64,9 +64,9 @@
         <form class="picker" action="/compare" method="get">
             <div class="eyebrow">SIGNALS</div>
 
-            <label class="slot {% if not term_a %}empty{% endif %}" for="term_a">
+            <div class="slot {% if not term_a %}empty{% endif %}">
                 <span>
-                    <span class="label">TERM A</span>
+                    <label class="label" for="term_a">TERM A</label>
                     <select name="term_a" id="term_a" required>
                         <option value="" disabled {% if not term_a %}selected{% endif %}>Choose a term</option>
                         {% for term in terms %}
@@ -75,11 +75,11 @@
                     </select>
                 </span>
                 <span class="dot {% if term_a %}a{% else %}pending{% endif %}"></span>
-            </label>
+            </div>
 
-            <label class="slot {% if not term_b %}empty{% endif %}" for="term_b">
+            <div class="slot {% if not term_b %}empty{% endif %}">
                 <span>
-                    <span class="label">TERM B</span>
+                    <label class="label" for="term_b">TERM B</label>
                     <select name="term_b" id="term_b" required>
                         <option value="" disabled {% if not term_b %}selected{% endif %}>Choose a term</option>
                         {% for term in terms %}
@@ -88,7 +88,7 @@
                     </select>
                 </span>
                 <span class="dot {% if term_b %}b{% else %}pending{% endif %}"></span>
-            </label>
+            </div>
 
             <button class="btn" type="submit">
                 {% if correlation is defined %}Recalculate{% else %}Compare{% endif %}
