@@ -1,9 +1,16 @@
+import os
 import sqlite3
-from pytrends.request import TrendReq  # type: ignore
 import sys
 
+from pytrends.request import TrendReq  # type: ignore
+
+from chart import DB_PATH
+
+# make sure data/ exists before sqlite tries to create the file inside it
+os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
+
 # we are going to connect the sqlite datbase to the file we want to connect
-connect = sqlite3.connect("data/trends.db")
+connect = sqlite3.connect(DB_PATH)
 
 # adding a cursor()/ whats neceesary to excute sql statments
 cursor = connect.cursor()
@@ -25,6 +32,7 @@ res = cursor.execute("SELECT name FROM sqlite_master WHERE name = 'data'")
 result = res.fetchone()
 
 if result is None or result[0] != "data":
+    connect.close()
     sys.exit("Table was not created")
 # print the pytrends intrest overtime and see what we get
 data = pytrends.interest_over_time()

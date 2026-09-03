@@ -1,27 +1,69 @@
+/* TrendSignal — drop-in replacement for static/style.css */
+
+:root {
+  --paper: #fffdf8;
+  --ink: #12100c;
+  --line: #e8e2d4;
+  --muted: #6b665c;
+  --faint: #a39c8b;
+  --ghost: #e0d9c8;
+  --dash: #c9c1ad;
+  --blue: #3563c9;
+  --red: #c94f3d;
+}
+
+* { box-sizing: border-box; }
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 40px
+  margin: 0;
+  background: #f0eee9;
+  color: var(--ink);
+  font-family: "Space Grotesk", Helvetica, Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
 }
 
-h1{
-    color: #222;
-    margin-bottom: 10px;
+.app {
+  width: 100%;
+  max-width: 1000px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-p {
-    font-size: 18px;
-    color: #444
+/* ---------- top bar ---------- */
+.topbar {
+  background: var(--ink);
+  padding: 16px 32px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+.topbar .brand { font-size: 15px; font-weight: 700; letter-spacing: -0.01em; color: var(--paper); }
+.topbar .tagline {
+  font: 400 11px/1 "JetBrains Mono", ui-monospace, Menlo, monospace;
+  letter-spacing: 0.1em;
+  color: #8a8578;
 }
 
-img {
-    max-width: 100%;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    margin-top: 20px;
+/* ---------- two-column body ---------- */
+.body { display: grid; grid-template-columns: 318px 1fr; }
+@media (max-width: 820px) { .body { grid-template-columns: 1fr; } }
+
+.rail {
+  padding: 32px;
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
 }
-.error {
-    color: #b00020;
-    font-weight: bold;
+@media (max-width: 820px) { .rail { border-right: none; border-bottom: 1px solid var(--line); } }
+
+.eyebrow {
+  font: 400 10.5px/1 "JetBrains Mono", ui-monospace, Menlo, monospace;
+  letter-spacing: 0.14em;
+  color: var(--faint);
 }
