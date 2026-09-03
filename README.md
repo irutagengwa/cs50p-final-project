@@ -16,3 +16,5 @@ The idea is built on the observation that search behavior often shifts before an
 ## How to use 
 
 Run project.py in your teminal, select the two terms you would like to compare, then press compare !!
+
+Special thanks to my friends for working on the html and css code.
