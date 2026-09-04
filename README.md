@@ -25,3 +25,5 @@ Everything downstream of "collect" (comparing terms, drawing charts, serving pag
 ## How to use 
 
 Run project.py in your teminal, select the two terms you would like to compare, then press compare !!
+
+Special thanks to my friends for working on the html and css code.
