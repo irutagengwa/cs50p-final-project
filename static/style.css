@@ -98,6 +98,12 @@ body {
   cursor: pointer;
   font-family: inherit;
 }
+/* the select's <span> wrapper defaults to fit-content width, which shrinks
+   the clickable area down to the text instead of filling the slot */
+.slot > span {
+  flex: 1;
+  min-width: 0;
+}
 .slot:hover { background: #f5f2ea; }
 .slot.empty { border-style: dashed; border-color: var(--dash); }
 .slot.empty:hover { border-color: var(--ink); }
