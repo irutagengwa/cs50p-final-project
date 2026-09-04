@@ -1,0 +1,5 @@
+# Local development only — not installed on the deploy host.
+-r requirements.txt
+pytest>=8.0
+black>=24.0
+pytrends>=4.9   # only needed to re-run fetch_data.py
